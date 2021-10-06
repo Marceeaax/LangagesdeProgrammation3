@@ -1,0 +1,63 @@
+UNIT 4
+1. Display a list of all the users on your system who log in with the Bash shell as a default.
+
+	A naive command would just be: 
+
+		grep "bash" /etc/passwd 
+
+	That would just print out the lines of the users whose terminals are the default bash.
+
+	A better solution would be:
+
+		grep "bash" /etc/passwd | grep -oE '^[^:]+'
+
+	-o tells it to only return the part of the line that matches. -E turns on extended regular expressions so the + will work later. ^ matches the beginning of the line, [^:] matches anything except a colon, and + means as many characters as possible. So this will match the beginning of every line up until the first colon
+	
+	Also notice that "/etc/passwd" is no longer added in the second statement of the infix operator
+	
+	
+2. From the /etc/group directory, display all lines starting with the string "daemon"
+	grep "^daemon" /etc/group
+
+3. Print all the lines from the same file that don't contain the string.
+	grep -v "^daemon" /etc/group
+
+4. Display localhost information from the /etc/hosts file, display the line number(s) matching the
+search string and count the number of occurrences of the string
+	grep -n  "localhost" /etc/hosts ; grep -c "localhost" /etc/hosts
+	
+5. Display a list of /usr/share/doc subdirectories containing information about shells. (not quite actually)
+	ls /usr/share/doc | grep "shell"
+
+6. How many README files do these subdirectories contain? Don't count anything in the form of
+"README.a_string"
+	ls -R  /usr/share/doc | grep "README" | grep -v "README.a" | grep -c "README"
+
+7. Make a list of files in your home directory that were changed less that 10 hours ago, using grep, but
+leave out directories.
+	find /home -type f -mmin -600 | grep -oE "[^/]+$"
+	
+	notes:
+	Use "sudo" if permission issues pop up
+	"-mmin -600" means 600 minutes which equals 10 hours
+	
+8. Put these commands in a shell script that will generate comprehensible output.
+	
+	find /home -type f -mmin -600 | grep -oE "[^/]+$"
+	
+9. Can you find an alternative for wc -l, using grep?
+	grep -c ".*"
+	
+11. Make a script that checks whether a user exists in /etc/passwd. For now, you can specify the user
+name in the script, you don't have to work with arguments and conditionals at this stage.
+	!/bin/bash
+	echo "Enter user name:"
+	read username
+	[grep -w $username /etc/passwd] && echo "$username user exist" || echo "$username doesn't exist"
+	
+12. Display configuration files in /etc that contain numbers in their names.
+	
+
+This is a pretty neat website http://madhufourtwenty.blogspot.com/2014/06/scripting-exercise-1-which-shell.html
+
+
