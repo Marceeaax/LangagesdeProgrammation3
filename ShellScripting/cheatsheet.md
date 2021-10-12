@@ -11,8 +11,8 @@ Get the current day number:
 	
 Get the current month name:
 
-   date +%b
+    date +%b
    
 In order to become root
 
-   sudo -i
+    sudo -i
